@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
         char pass[101];
         char temp[101] = "";
         char* pch;
-        int sec_lvl = 0;
+        int sec_lvl = 0, size = 0, counter = 0;
         scanf("%100s", pass);
         printf("%s", pass);
         pch = pass;
@@ -42,7 +42,11 @@ int main(int argc, char* argv[]) {
         }
         int i = 0;
         while (pass[i]) {
-            if(temp[i] == pass[i]) {end = false; break;};
+            size++;
+        }
+        while (pass[i]) {
+            if(temp[i] == pass[i]) { counter++; } 
+            if(counter == size) {end = false; break;}
         }
         while (pass[i]) {
             temp[i] = pass[i];
