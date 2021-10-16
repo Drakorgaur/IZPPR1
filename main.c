@@ -25,12 +25,10 @@ int main(int argc, char* argv[]) {
         printf("%d\n", PARAM);
         char pass[101];
         char temp[101];
-        int pass_num = 0;
-        //char passT[][101];
         char* pch;
         int sec_lvl = 0;
-        printf("%d", pass_num);
         scanf("%100s", pass);
+        printf("%s", pass);
         pch = pass;
         for (int level = 0; level < 4; level++) {
             if (security_level_checker[level](pch)) {
