@@ -19,26 +19,30 @@ int main(int argc, char* argv[]) {
     printf("Program start!\n");
     printf("LEVEL arg - %s\n", argv[1]);
     printf("PARAM arg - %s\n", argv[2]);
-    printf("PARAM arg - %s\n", argv[3]);
     }
     PARAM = atoi(argv[2]);
-
-    printf("%d\n", PARAM);
-    char pass[101];
-    char* pch;
-    int sec_lvl = 0;
-    scanf("%100s", pass);
-    pch = pass;
-    for (int level = 0; level < 4; level++) {
-        if (security_level_checker[level](pch)) {
-            printf("Security level %d: success\n", level + 1);
-            sec_lvl++;
-        } else
-        {
-            printf("Security level %d: fail\n", level + 1);
-        };
+    while (true) {
+        printf("%d\n", PARAM);
+        char pass[101];
+        char temp[101];
+        int pass_num = 0;
+        //char passT[][101];
+        char* pch;
+        int sec_lvl = 0;
+        printf("%d", pass_num);
+        scanf("%100s", pass);
+        pch = pass;
+        for (int level = 0; level < 4; level++) {
+            if (security_level_checker[level](pch)) {
+                printf("Security level %d: success\n", level + 1);
+                sec_lvl++;
+            } else
+            {
+                printf("Security level %d: fail\n", level + 1);
+            };
+        }
+        printf("Final security level is: %d", sec_lvl);
     }
-    printf("Final security level is: %d", sec_lvl);
     return 0;
 }
 
@@ -139,14 +143,11 @@ bool fourthLevel(char* pointer)
             for(int sub_z = z; sub_z < PARAM + z; sub_z++) {     // get first substring
                 substr_temp[sub_z - z] = pointer[sub_z];
             }
-            printf("Compare sub-string %s with %s\n", substr, substr_temp);
             int counter = 0;
             for (int d = 0; d < PARAM; d++) {                        // compare substrings
                 if (substr[d] == substr_temp[d]) {
                     counter++;
-                    printf("counter: %d\n", counter);
                     if (counter == PARAM) {
-                        printf("BREAKING");
                         return false;
                     }
                     continue;
