@@ -21,10 +21,11 @@ int main(int argc, char* argv[]) {
     printf("PARAM arg - %s\n", argv[2]);
     }
     PARAM = atoi(argv[2]);
-    while (true) {
+    bool end = true;
+    while (end) {
         printf("%d\n", PARAM);
         char pass[101];
-        char temp[101];
+        char temp[101] = "";
         char* pch;
         int sec_lvl = 0;
         scanf("%100s", pass);
@@ -38,6 +39,13 @@ int main(int argc, char* argv[]) {
             {
                 printf("Security level %d: fail\n", level + 1);
             };
+        }
+        int i = 0;
+        while (pass[i]) {
+            if(temp[i] == pass[i]) {end = false; break;};
+        }
+        while (pass[i]) {
+            temp[i] = pass[i];
         }
         printf("Final security level is: %d", sec_lvl);
     }
