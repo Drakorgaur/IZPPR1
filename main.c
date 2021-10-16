@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
         while (pass[i]) {
             size++;
         }
-        while (pass[i]) {
-            if(temp[i] == pass[i]) { counter++; } 
+        while (pass[i] && temp[i]) {
+            if(temp[i] == pass[i]) { counter++; }
             if(counter == size) {end = false; break;}
         }
         while (pass[i]) {
