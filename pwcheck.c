@@ -84,6 +84,10 @@ int main(int argc, char* argv[])
     int sec_lvl = 0;
     counter = 0;
     scanf("%100s", pass);
+    if (compare(pass, "\n") || compare(pass, " ") || compare(pass, "")) {
+        printf("Empty password. I give up");
+        longjmp(err, 2);
+    }
     pch = pass;
     for (int level = 0; level < 4; level++)
     {
