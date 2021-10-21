@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <setjmp.h>
-char passwords[2049];
+char passwords[2049][101];
+int pass_counter;
 bool firstLevel(char *p);
 bool secondLevel(char *p);
 bool thirdLevel(char *p);
@@ -43,7 +44,6 @@ int main(int argc, char* argv[])
             if (compare(argv[i], key[sub_i])) {
                 if (sub_i == 0) {
                     PARAM = atoi(argv[i+1]);
-                    printf("PARAM %d", PARAM);
                     if (!(0 < atoi(argv[i+1]) && atoi(argv[i+1]) <= 4)) {
                         printf("PARAM ");
                         longjmp(buf, 1);
@@ -51,7 +51,6 @@ int main(int argc, char* argv[])
                 }
                 if (sub_i == 1) {
                     LEVEL = atoi(argv[i+1]);
-                    printf("PARAM %d", LEVEL);
                     if (!(0 < atoi(argv[i+1]) && atoi(argv[i+1]) <= 4)) {
                         printf("LEVEL ");
                         longjmp(buf, 1);
@@ -62,8 +61,8 @@ int main(int argc, char* argv[])
             else {
                 counter++;
                 if (counter == argc + 1) {
-                    PARAM = atoi(argv[1]);
-                    LEVEL = atoi(argv[2]);
+                    PARAM = atoi(argv[2]);
+                    LEVEL = atoi(argv[1]);
                 }
             }
         }
@@ -94,18 +93,15 @@ int main(int argc, char* argv[])
         } else
         {
             printf("Security level %d: fail\n\n", level + 1);
+            break;
         }
     }
     if (sec_lvl >= LEVEL) {
-        int size = 0;
-        while (passwords[size] != '\0') {
-            size++;
-        }
         int cur = 0;
         for (cur = 0; pass[cur]; ++cur) {
-            passwords[size + cur] = pass[cur];
+            passwords[pass_counter][cur] = pass[cur];
         }
-        passwords[size + cur] = ' ';
+        pass_counter++;
     }
     printf("Final security level is: %d\n", sec_lvl);
     if (stat_b) {
@@ -143,7 +139,7 @@ bool firstLevel(char* pointer)
     bool status[2] = {false, false};
     for (int i = 0;pointer[i]; i++) {
         if (status[0] == false && (97 <= pointer[i] && pointer[i] <= 122)) { status[0] = true; }
-        if (status[1] == false && (64 <= pointer[i] && pointer[i] <= 90))  { status[1] = true; }
+        if (status[1] == false && (65 <= pointer[i] && pointer[i] <= 90))  { status[1] = true; }
         if (status[0] == true && status[1] == true) { return true; }
     }
     return false;
@@ -172,7 +168,7 @@ bool firstSubLevel(char* pointer)
 bool secondSubLevel(char* pointer)
 {
     for (int i = 0; pointer[i]; i++) {
-        if (64 <= pointer[i] && pointer[i] <= 90) { return true; }
+        if (65 <= pointer[i] && pointer[i] <= 90) { return true; }
     }
     return false;
 }
@@ -186,7 +182,8 @@ bool thirdSubLevel(char* pointer)
 bool fourthSubLevel(char* pointer)
 {
     for (int i = 0; pointer[i]; i++) {
-        if (32 <= pointer[i] && pointer[i] <= 126) { return true; }
+        if (32 <= pointer[i] && pointer[i] <= 47 || pointer[i] >= 58 && pointer[i] <= 64 || pointer[i] >= 91 &&
+        pointer[i] <= 96 || pointer[i] >= 123 && pointer[i] <= 126) { return true; }
     }
     return false;
 }
@@ -261,7 +258,7 @@ void statistic(char* str)
         uniq_size++;
     }
     divis++;
-    st_avg = (st_avg + uniq_size) / divis;
+    st_avg = (st_avg * (divis-1)+ uniq_size) / divis;
     uniq_size = 0;
     while (ch_st_uniq[uniq_size] != '\0') {
         uniq_size++;
@@ -281,9 +278,8 @@ void statistic(char* str)
     }
     if (st_min > i) { st_min = i; }
     if (st_max < i) { st_max = i; }
-    for (int i = 0; passwords[i] ; i++) {
-        if (passwords[i] == ' ') { printf("\n"); continue;}
-        printf("%c", passwords[i]);
+    for (int i = 0; i < pass_counter; i++) {
+        printf("%s\n", passwords[i]);
     }
     printf("\n--------STATISTIC--------\n");
     printf("All uniq values: %s\n", ch_st_uniq);
