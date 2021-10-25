@@ -3,10 +3,12 @@
 //
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <memory.h>
 #include <setjmp.h>
+typedef unsigned short bool;
+#define true 1
+#define false 0
 bool firstLevel(char *p);
 bool secondLevel(char *p);
 bool thirdLevel(char *p);
